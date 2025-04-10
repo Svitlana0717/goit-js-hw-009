@@ -1,47 +1,63 @@
 const form = document.querySelector('.feedback-form');
 const STORAGE_KEY = 'feedback-form-state';
 
-// 1. Створюємо об'єкт з початковими значеннями
 let formData = {
   email: '',
   message: '',
 };
 
-// 2. При завантаженні сторінки — перевіряємо localStorage
+// 1. Завантаження даних з localStorage при старті
 loadFormData();
 
-// 3. Відстежуємо події input
+// 2. Слухач події input
 form.addEventListener('input', event => {
   const { name, value } = event.target;
-  formData[name] = value.trim();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  
+  // Оновлюємо тільки поля email або message
+  if (name in formData) {
+    formData[name] = value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }
 });
 
-// 4. Відправлення форми
+// 3. Відправлення форми
 form.addEventListener('submit', event => {
   event.preventDefault();
 
-  // Перевірка на заповнення полів
-  if (formData.email === '' || formData.message === '') {
+  const email = form.elements.email.value.trim();
+  const message = form.elements.message.value.trim();
+
+  if (email === '' || message === '') {
     alert('Fill please all fields');
     return;
   }
 
-  // Виводимо дані у консоль
-  console.log(formData);
+  console.log({ email, message });
 
-  // Очищаємо все
-  localStorage.removeItem(STORAGE_KEY);
+  // Очищення
   form.reset();
+  localStorage.removeItem(STORAGE_KEY);
   formData = { email: '', message: '' };
 });
 
-// 5. Функція для заповнення форми з localStorage
+// 4. Функція для завантаження збережених даних
 function loadFormData() {
-  const savedData = localStorage.getItem(STORAGE_KEY);
-  if (savedData) {
-    formData = JSON.parse(savedData);
-    form.elements.email.value = formData.email || '';
-    form.elements.message.value = formData.message || '';
+  try {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (!savedData) return;
+
+    const parsedData = JSON.parse(savedData);
+
+    if (parsedData.email) {
+      form.elements.email.value = parsedData.email;
+      formData.email = parsedData.email;
+    }
+
+    if (parsedData.message) {
+      form.elements.message.value = parsedData.message;
+      formData.message = parsedData.message;
+    }
+  } catch (error) {
+    console.error('Error loading form data:', error);
   }
 }
