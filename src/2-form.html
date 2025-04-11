@@ -10,43 +10,23 @@
   <body>
     <main>
       <div class="container">
-        <a class="back-link" href="./index.htnl">Go back</a>
-        <h1 class="main-title">
-          Form
-        </h1>
+        <a class="back-link" href="./index.html">Go back</a>
+        <h1 class="main-title">Form</h1>
+
+        <form class="feedback-form" autocomplete="off">
+          <label>
+            Email
+            <input type="email" name="email" autofocus />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="8"></textarea>
+          </label>
+          <button type="submit">Submit</button>
+        </form>
       </div>
-      Завдання 2 - Форма зворотного зв'язку
+    </main>
 
-
-
-Виконуй це завдання у файлах 2-form.html і 2-form.js.
-
-Додай у HTML розмітку форми. У JS напиши скрипт, який буде зберігати значення полів у локальне сховище, коли користувач щось друкує.
-
-
-
-<form class="feedback-form" autocomplete="off">
-  <label>
-    Email
-    <input type="email" name="email" autofocus />
-  </label>
-  <label>
-    Message
-    <textarea name="message" rows="8"></textarea>
-  </label>
-  <button type="submit">Submit</button>
-  <form class="feedback-form" autocomplete="off">
-    <label>
-      Email
-      <input type="email" name="email" autofocus />
-    </label>
-    <label>
-      Message
-      <textarea name="message" rows="8"></textarea>
-    </label>
-    <button type="submit">Submit</button>
-  </form>
-  </main>
     <script type="module" src="./js/2-form.js"></script>
   </body>
 </html>
